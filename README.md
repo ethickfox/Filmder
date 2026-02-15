@@ -91,24 +91,6 @@ movie-matcher/
   - Endpoint: `https://api.tvmaze.com/shows`
   - Data includes: show name, premiere date, genres, summary
 
-## Troubleshooting
-
-### Browser version shows blank page
-- Check browser console (F12 or Cmd+Option+I) for errors
-- Ensure you have internet connection (needs CDN access)
-- Try refreshing the page
-
-### "Can't find module" errors with npm
-```bash
-# Delete node_modules and reinstall
-rm -rf node_modules package-lock.json
-npm install
-```
-
-### CORS issues
-The TVMaze API allows cross-origin requests, but if you encounter issues:
-- Try the browser-only version (`standalone-index.html`)
-- The API respects CORS headers
 
 ### Shows not loading
 - Check browser console for errors (F12 or Cmd+Option+I)
