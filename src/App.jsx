@@ -64,6 +64,10 @@ export default function MovieMatcher() {
   const [showMatches, setShowMatches] = useState(false);
   const [sessionComplete, setSessionComplete] = useState(false);
   const [showUser2Transition, setShowUser2Transition] = useState(false);
+  const [sessionStarted, setSessionStarted] = useState(false);
+  const [sessionDuration, setSessionDuration] = useState(1);
+  const [fromYear, setFromYear] = useState(1980);
+  const [tillYear, setTillYear] = useState(new Date().getFullYear());
 
   useEffect(() => {
     const loadMovies = async () => {
@@ -128,6 +132,10 @@ export default function MovieMatcher() {
     setSessionComplete(false);
     setSwipeDirection(null);
     setShowUser2Transition(false);
+    setSessionStarted(false);
+    setSessionDuration(1);
+    setFromYear(1980);
+    setTillYear(new Date().getFullYear());
   };
 
   const matches = movies.filter(
@@ -148,7 +156,7 @@ export default function MovieMatcher() {
     );
   }
 
-  if (!currentUser) {
+  if (!sessionStarted) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-purple-900 via-pink-800 to-red-900 flex items-center justify-center p-4">
         <div className="text-center space-y-8">
@@ -160,6 +168,107 @@ export default function MovieMatcher() {
             </p>
             <p className="text-sm text-pink-300">
               {movies.length} shows loaded from TVMaze
+            </p>
+          </div>
+
+          <div className="bg-white/10 backdrop-blur-lg rounded-2xl p-8 space-y-6 w-full max-w-md">
+            <div className="space-y-4">
+              <label className="block text-white text-lg font-semibold">
+                Choose film release period
+              </label>
+
+              <div className="space-y-3">
+                <div>
+                  <label className="block text-pink-200 text-sm font-medium mb-2">
+                    From Year
+                  </label>
+                  <div className="flex items-center justify-center gap-3">
+                    <button
+                      onClick={() => setFromYear(Math.max(1900, fromYear - 1))}
+                      className="bg-white text-purple-900 py-2 px-4 rounded-lg font-bold hover:bg-pink-100 transition-all"
+                    >
+                      −
+                    </button>
+                    <input
+                      type="number"
+                      value={fromYear}
+                      onChange={(e) => setFromYear(Number(e.target.value))}
+                      className="bg-white text-purple-900 rounded-lg px-4 py-2 w-24 text-center font-bold text-lg focus:outline-none focus:ring-2 focus:ring-pink-400"
+                      min="1900"
+                      max={tillYear}
+                    />
+                    <button
+                      onClick={() => setFromYear(Math.min(tillYear, fromYear + 1))}
+                      className="bg-white text-purple-900 py-2 px-4 rounded-lg font-bold hover:bg-pink-100 transition-all"
+                    >
+                      +
+                    </button>
+                  </div>
+                </div>
+
+                <div>
+                  <label className="block text-pink-200 text-sm font-medium mb-2">
+                    Till Year
+                  </label>
+                  <div className="flex items-center justify-center gap-3">
+                    <button
+                      onClick={() => setTillYear(Math.max(fromYear, tillYear - 1))}
+                      className="bg-white text-purple-900 py-2 px-4 rounded-lg font-bold hover:bg-pink-100 transition-all"
+                    >
+                      −
+                    </button>
+                    <input
+                      type="number"
+                      value={tillYear}
+                      onChange={(e) => setTillYear(Number(e.target.value))}
+                      className="bg-white text-purple-900 rounded-lg px-4 py-2 w-24 text-center font-bold text-lg focus:outline-none focus:ring-2 focus:ring-pink-400"
+                      min={fromYear}
+                      max={new Date().getFullYear()}
+                    />
+                    <button
+                      onClick={() => setTillYear(Math.min(new Date().getFullYear(), tillYear + 1))}
+                      className="bg-white text-purple-900 py-2 px-4 rounded-lg font-bold hover:bg-pink-100 transition-all"
+                    >
+                      +
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+              <div className="bg-white/20 rounded-lg p-3 text-center">
+                <p className="text-white text-sm font-medium">
+                  {fromYear} − {tillYear}
+                </p>
+              </div>
+            </div>
+
+            <button
+              onClick={() => setSessionStarted(true)}
+              className="w-full bg-white text-purple-900 py-4 px-8 rounded-full text-xl font-bold hover:bg-pink-100 transition-all transform hover:scale-105 shadow-2xl"
+            >
+              Start Session
+            </button>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  if (!currentUser) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-purple-900 via-pink-800 to-red-900 flex items-center justify-center p-4">
+        <div className="text-center space-y-8">
+          <div className="space-y-4">
+            <Film className="w-24 h-24 mx-auto text-white" />
+            <h1 className="text-6xl font-bold text-white">F</h1>
+            <p className="text-xl text-pink-200">
+              Swipe. Match. Watch Together.
+            </p>
+            <p className="text-sm text-pink-300">
+              {movies.length} shows loaded from TVMaze
+            </p>
+            <p className="text-sm text-pink-300">
+              Release period: {fromYear} − {tillYear}
             </p>
           </div>
 
