@@ -33,9 +33,7 @@ const fetchNetflixMovies = async () => {
       return {
         id: show.id,
         title: show.name,
-        year: show.premiered
-          ? new Date(show.premiered).getFullYear()
-          : "N/A",
+        year: show.premiered ? new Date(show.premiered).getFullYear() : "N/A",
         genre: genres,
         image: emoji,
         description: show.summary
@@ -139,7 +137,7 @@ export default function MovieMatcher() {
   };
 
   const matches = movies.filter(
-    (movie) => user1Likes.includes(movie.id) && user2Likes.includes(movie.id)
+    (movie) => user1Likes.includes(movie.id) && user2Likes.includes(movie.id),
   );
 
   if (loading) {
@@ -179,16 +177,7 @@ export default function MovieMatcher() {
 
               <div className="space-y-3">
                 <div>
-                  <label className="block text-pink-200 text-sm font-medium mb-2">
-                    From Year
-                  </label>
                   <div className="flex items-center justify-center gap-3">
-                    <button
-                      onClick={() => setFromYear(Math.max(1900, fromYear - 1))}
-                      className="bg-white text-purple-900 py-2 px-4 rounded-lg font-bold hover:bg-pink-100 transition-all"
-                    >
-                      −
-                    </button>
                     <input
                       type="number"
                       value={fromYear}
@@ -196,27 +185,8 @@ export default function MovieMatcher() {
                       className="bg-white text-purple-900 rounded-lg px-4 py-2 w-24 text-center font-bold text-lg focus:outline-none focus:ring-2 focus:ring-pink-400"
                       min="1900"
                       max={tillYear}
-                    />
-                    <button
-                      onClick={() => setFromYear(Math.min(tillYear, fromYear + 1))}
-                      className="bg-white text-purple-900 py-2 px-4 rounded-lg font-bold hover:bg-pink-100 transition-all"
-                    >
-                      +
-                    </button>
-                  </div>
-                </div>
-
-                <div>
-                  <label className="block text-pink-200 text-sm font-medium mb-2">
-                    Till Year
-                  </label>
-                  <div className="flex items-center justify-center gap-3">
-                    <button
-                      onClick={() => setTillYear(Math.max(fromYear, tillYear - 1))}
-                      className="bg-white text-purple-900 py-2 px-4 rounded-lg font-bold hover:bg-pink-100 transition-all"
-                    >
-                      −
-                    </button>
+                    />{" "}
+                    -
                     <input
                       type="number"
                       value={tillYear}
@@ -225,20 +195,8 @@ export default function MovieMatcher() {
                       min={fromYear}
                       max={new Date().getFullYear()}
                     />
-                    <button
-                      onClick={() => setTillYear(Math.min(new Date().getFullYear(), tillYear + 1))}
-                      className="bg-white text-purple-900 py-2 px-4 rounded-lg font-bold hover:bg-pink-100 transition-all"
-                    >
-                      +
-                    </button>
                   </div>
                 </div>
-              </div>
-
-              <div className="bg-white/20 rounded-lg p-3 text-center">
-                <p className="text-white text-sm font-medium">
-                  {fromYear} − {tillYear}
-                </p>
               </div>
             </div>
 
@@ -248,6 +206,11 @@ export default function MovieMatcher() {
             >
               Start Session
             </button>
+            <div className="bg-white/20 rounded-lg p-3 text-center">
+              <p className="text-white text-sm font-medium">
+                {fromYear} − {tillYear}
+              </p>
+            </div>
           </div>
         </div>
       </div>
@@ -260,7 +223,7 @@ export default function MovieMatcher() {
         <div className="text-center space-y-8">
           <div className="space-y-4">
             <Film className="w-24 h-24 mx-auto text-white" />
-            <h1 className="text-6xl font-bold text-white">F</h1>
+            <h1 className="text-6xl font-bold text-white">Filmder</h1>
             <p className="text-xl text-pink-200">
               Swipe. Match. Watch Together.
             </p>
